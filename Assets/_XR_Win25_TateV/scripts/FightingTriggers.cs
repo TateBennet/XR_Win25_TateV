@@ -9,6 +9,7 @@ public class FightingTriggers : MonoBehaviour
     private InputAction punchAction;
     private InputAction kickAction;
     private InputAction jumpAction;
+    private InputAction dieAction;
 
     void Awake()
     {
@@ -22,6 +23,7 @@ public class FightingTriggers : MonoBehaviour
         punchAction = playerInput.actions["punch"];
         kickAction = playerInput.actions["kick"];
         jumpAction = playerInput.actions["taunt"];
+        dieAction = playerInput.actions["die"];
     }
 
     void Update()
@@ -42,6 +44,12 @@ public class FightingTriggers : MonoBehaviour
         if (jumpAction.WasPressedThisFrame())
         {
             animator.SetTrigger("taunt");
+        }
+
+        // Check if jump key was pressed
+        if (dieAction.WasPressedThisFrame())
+        {
+            animator.SetTrigger("die");
         }
     }
 }
