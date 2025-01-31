@@ -13,4 +13,14 @@ public class DeathScript : MonoBehaviour
     {
         animator.SetTrigger("die");
     }
+
+    public void PlayThumbsUp()
+    {
+        animator.SetTrigger("thumb");
+    }
+
+    public void PlayWaveAnim()
+    {
+        animator.SetTrigger("wave");
+    }
 }
