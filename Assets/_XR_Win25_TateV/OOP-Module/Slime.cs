@@ -6,17 +6,17 @@ public class Slime : Enemy
 {
     [SerializeField] private float m_moveSpeed = 0.5f;
 
-    private void Update()
+    protected override void Update()
     {
-        if (IsWithinAttackRange)
-            HandleAttack();
-        else
-            MoveTowardsPlayer();
+        base.Update();
+        if(!IsWithinAttackRange)
+        MoveTowardsPlayer();
     }
 
-    private void Attack()
+    protected override void Attack()
     {
-        Debug.Log($"{Name} is attacking with {m_attackDamage} damage!");
+        base.Attack();
+        // new information about slimes specific attack
     }
 
     private void MoveTowardsPlayer()

@@ -7,16 +7,9 @@ public class ShootingTower : Enemy
     [SerializeField] private Transform m_torret;
     [SerializeField] private Projectile m_projectilePrefab;
 
-    private void Update()
+    protected override void Attack()
     {
-        if (IsWithinAttackRange)
-            HandleAttack();
-    }
-
-    private void Attack()
-    {
-        Debug.Log($"{Name} is attacking with {m_attackDamage} damage!");
-
+        base.Attack();
         AimTorret(m_playerTarget);
         Fire();
     }

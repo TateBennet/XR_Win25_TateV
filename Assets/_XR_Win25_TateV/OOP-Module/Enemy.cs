@@ -19,6 +19,17 @@ public abstract class Enemy : MonoBehaviour
         if (m_playerTarget == null) m_playerTarget = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
+    protected virtual void Update()
+    {
+        if (IsWithinAttackRange)
+            HandleAttack();
+    }
+
+    protected virtual void Attack()
+    {
+        Debug.Log($"{Name} is attacking with {m_attackDamage} damage!");
+    }
+
     protected void HandleAttack()
     {
         if (attackCoroutine == null)
@@ -29,7 +40,7 @@ public abstract class Enemy : MonoBehaviour
     {
         while (IsWithinAttackRange)
         {
-            //Attack(); undo this
+            Attack();
             yield return new WaitForSeconds(m_attackRate);
         }
 
