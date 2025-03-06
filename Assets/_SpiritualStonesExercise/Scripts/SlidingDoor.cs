@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering.UI;
 
 
 public class SlidingDoor : MonoBehaviour
@@ -11,7 +12,27 @@ public class SlidingDoor : MonoBehaviour
     [Tooltip("Slide movement duration in seconds")]
     [SerializeField] private float slideDuration = 5.0f;
 
+    //[SerializeField] StoneSocket fireStoneSocket;
+    //[SerializeField] StoneSocket forestStoneSocket;
+    //[SerializeField] StoneSocket waterStoneSocket;
+
     private Coroutine doorSlideCoroutine;
+
+    private void OnEnable()
+    {
+        //subscribing to my event notifications
+        StoneSocket.OnAllStonesPlaced += Open;
+        //forestStoneSocket.OnAllStonesPlaced += Open;
+        //waterStoneSocket.OnAllStonesPlaced += Open;
+    }
+
+    private void OnDisable()
+    {
+        //unsubscribing to my event notifications
+        StoneSocket.OnAllStonesPlaced -= Open;
+        //forestStoneSocket.OnAllStonesPlaced -= Open;
+        //waterStoneSocket.OnAllStonesPlaced -= Open;
+    }
 
     void Start()
     {
@@ -35,10 +56,12 @@ public class SlidingDoor : MonoBehaviour
     }
 
     [ContextMenu("Open")] // This allows running the function from the Editor to test it (dotStack Menu next to Component Name). Only works for functions with no parameters.
-    public void Open()
+    void Open( StoneSocket socket, float inValue)
     {
         StopDoorSlideCoroutine(); // Stop any existing coroutine to avoid conflicts
         doorSlideCoroutine = StartCoroutine(SlideDoor(openDooraPosition.position));
+
+        Debug.Log("the " + socket.gameObject.name + " opened the door");
     }
 
     [ContextMenu("Close")]
@@ -54,14 +77,6 @@ public class SlidingDoor : MonoBehaviour
         {
             StopCoroutine(doorSlideCoroutine);
             doorSlideCoroutine = null;
-        }
-    }
-
-    private void Update()
-    {
-        if(StoneSocket.stoneCount == 3)
-        {
-            Open();
         }
     }
 }

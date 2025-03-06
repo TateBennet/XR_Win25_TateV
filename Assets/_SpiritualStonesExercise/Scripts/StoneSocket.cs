@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.ProBuilder.MeshOperations;
 
 
@@ -14,12 +15,28 @@ public class StoneSocket : MonoBehaviour
     bool isOccupied = false;
     public static int stoneCount = 0;
 
+    #region
+    public static event Action<StoneSocket, float> OnAllStonesPlaced;
+    [SerializeField] UnityEvent sampleUnityEvent;
+
+    #endregion
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag(stoneTag))
         {
             isOccupied = true;
             stoneCount++;
+            
+            if(stoneCount == 1)
+            {
+                sampleUnityEvent.Invoke();
+            }
+
+            if(stoneCount == 3)
+            {
+                OnAllStonesPlaced.Invoke(this,21.3f); //add a ? if getting error?
+            }
 
             Debug.Log($"{other.gameObject.name} gameobject entered the trigger and stone count is now {stoneCount}");
         }
